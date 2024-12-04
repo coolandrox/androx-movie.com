@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANDROX ANIME</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #410099;
+            --secondary-color: #6a02b6;
+            --accent-color: #ff0066;
+            --background-dark: #0a0a0a;
+            --background-light: #1a1a1a;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+        }
+
+        /* Enhanced Navigation */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            height: 80vh;
+            position: relative;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .hero-slider {
+            height: 100%;
+            position: relative;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 10%;
+            left: 5%;
+            max-width: 600px;
+            z-index: 2;
+            padding: 2rem;
+            background: rgba(0,0,0,0.7);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .hero-button:hover {
+            transform: translateY(-2px);
+            background: var(--secondary-color);
+        }
+
+        /* Featured Section */
+        .featured {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color);
+        }
+
+        .view-all {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .view-all:hover {
+            color: var(--secondary-color);
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .anime-card {
+            background: var(--background-light);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .anime-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .anime-info {
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .anime-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .anime-meta {
+            font-size: 0.9rem;
+            color: #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--accent-color);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--accent-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-content {
+                left: 0;
+                bottom: 0;
+                width: 100%;
+            }
+        }
+    </style>
+    <!-- Add this in your <head> section -->
+<head>
+    <!-- Ensure Font Awesome is properly loaded -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Navigation and Icon Styles */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links i {
+            font-size: 1.2rem;
+            min-width: 1.2rem; /* Ensure icons maintain width */
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--background-dark);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                justify-content: center;
+                width: 100%;
+                padding: 0.5rem;
+            }
+
+            .nav-links i {
+                margin-right: 0.5rem;
+            }
+        }
+
+        /* Icon-specific styles */
+        .icon-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px; /* Minimum width for icons */
+            min-height: 24px; /* Minimum height for icons */
+        }
+    </style>
+</head>
+
+<!-- Updated Navigation Structure -->
+<nav class="navbar">
+    <div class="nav-content">
+        <div class="logo">ANDROX</div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="anime.html">
+                <i class="fas fa-tv"></i>
+                <span>Anime</span>
+            </a>
+            <a href="manga.html">
+                <i class="fas fa-book"></i>
+                <span>Manga</span>
+            </a>
+      
+        </div>
+    </div>
+</nav>
+
+<!-- Add this JavaScript for mobile menu functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        // Toggle mobile menu
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Ensure icons are loaded
+        function checkIcons() {
+            const icons = document.querySelectorAll('.fas');
+            icons.forEach(icon => {
+                if (!icon.offsetHeight) {
+                    // Reload Font Awesome if icons aren't visible
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css';
+                    document.head.appendChild(link);
+                }
+            });
+        }
+
+        // Check icons after page load
+        window.addEventListener('load', checkIcons);
+        
+        // Check icons after orientation change
+        window.addEventListener('orientationchange', () => {
+            setTimeout(checkIcons, 100);
+        });
+    });
+</script>
+</head>
+<body>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <!-- Slides will be inserted here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section class="featured">
+        <div class="section-header">
+            <h2 class="section-title">Popular Now</h2>
+            <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div id="featured-anime" class="anime-grid">
+            <div class="loading">Loading featured content...</div>
+        </div>
+    </section>
+
+    <script>
+        // Hero Slider Implementation
+        const heroSlides = [
+            {
+                image: 'https://via.placeholder.com/1920x1080',
+                title: 'Latest Anime Release',
+                description: 'Watch the latest episodes of your favorite anime series.'
+            },
+            // Add more slides as needed
+        ];
+
+        function createHeroSlider() {
+            const slider = document.getElementById('heroSlider');
+            heroSlides.forEach((slide, index) => {
+                const slideElement = document.createElement('div');
+                slideElement.className = `hero-slide ${index === 0 ? 'active' : ''}`;
+                slideElement.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${slide.image})`;
+                
+                const content = document.createElement('div');
+                content.className = 'hero-content';
+                content.innerHTML = `
+                    <h1 class="hero-title">${slide.title}</h1>
+                    <p class="hero-description">${slide.description}</p>
+                    <a href="#" class="hero-button">Watch Now</a>
+                `;
+                
+                slideElement.appendChild(content);
+                slider.appendChild(slideElement);
+            });
+        }
+
+        // Fetch and display anime
+        async function fetchFeaturedAnime() {
+            try {
+                const response = await fetch('https://api.jikan.moe/v4/top/anime');
+                const data = await response.json();
+                
+                const featuredContainer = document.getElementById('featured-anime');
+                featuredContainer.innerHTML = '';
+
+                data.data.slice(0, 12).forEach(anime => {
+                    const animeCard = document.createElement('div');
+                    animeCard.className = 'anime-card';
+                    animeCard.innerHTML = `
+                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title}">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${anime.title}</h3>
+                            <div class="anime-meta">
+                                <span>${anime.episodes || '?'} Episodes</span>
+                                <span>★ ${anime.score || 'N/A'}</span>
+                            </div>
+                        </div>
+                    `;
+                    featuredContainer.appendChild(animeCard);
+                });
+            } catch (error) {
+                console.error('Error fetching anime:', error);
+                document.getElementById('featured-anime').innerHTML = 
+                    '<div class="loading">Error loading content. Please try again later.</div>';
+            }
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            createHeroSlider();
+            fetchFeaturedAnime();
+        });
+    </script>
+</body>
+</html>
